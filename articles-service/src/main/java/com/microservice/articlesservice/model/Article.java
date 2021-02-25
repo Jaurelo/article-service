@@ -10,7 +10,7 @@ import javax.persistence.Id;
 
 @Entity
 //@JsonIgnoreProperties(value ={"prixAchat","id"})
-//@JsonFilter("MonFiltreDynamique")
+@JsonFilter("MonFiltreDynamique")
 public class Article {
         @Id
       //  @GeneratedValue
