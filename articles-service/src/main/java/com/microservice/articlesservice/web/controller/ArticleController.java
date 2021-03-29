@@ -62,22 +62,57 @@ public class ArticleController {
     //Récupérer les article avec un prix supprieur au param
     @ApiOperation(value = "Récupérer les articles avec un prix suppérieur au paramètre")
     @GetMapping(value = "/Articles/prixGreater/{prixLimit}")
-    public List<Article> afficherListeArticlePrixGreater(@PathVariable int prixLimit) {
-        return articleDao.findByPrixGreaterThan(prixLimit);
+    public MappingJacksonValue afficherListeArticlePrixGreater(@PathVariable int prixLimit) {
+        List<Article> listeArticle =  articleDao.findByPrixGreaterThan(prixLimit);
+
+        if (listeArticle == null) {
+            throw new ArticleIntrouvableExeption("Aucun article ne vaut plus de :"+prixLimit+" €");
+        }
+        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat", "id");
+        FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("MonFiltreDynamique", monFiltre);
+
+        MappingJacksonValue articlesFiltres = new MappingJacksonValue(listeArticle);
+
+        articlesFiltres.setFilters(listDeNosFiltres);
+        ;
+        return articlesFiltres;
     }
 
     //Récupérer les article avec un prix infèrieur au param
     @ApiOperation(value = "Récupérer les articles avec un prix infèrieur au paramètre")
     @GetMapping(value = "/Articles/prixLess/{prixLimit}")
-    public List<Article> afficherListeArticlePrixLess(@PathVariable int prixLimit) {
-        return articleDao.findByPrixLessThan(prixLimit);
+    public MappingJacksonValue afficherListeArticlePrixLess(@PathVariable int prixLimit) {
+        List<Article> listeArticle =  articleDao.findByPrixLessThan(prixLimit);
+
+        if (listeArticle == null) {
+            throw new ArticleIntrouvableExeption("Aucun article ne vaut moins de :"+prixLimit+" €");
+        }
+        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat", "id");
+        FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("MonFiltreDynamique", monFiltre);
+
+        MappingJacksonValue articlesFiltres = new MappingJacksonValue(listeArticle);
+
+        articlesFiltres.setFilters(listDeNosFiltres);
+        ;
+        return articlesFiltres;
     }
 
     //Récupérer les article avec un prix supprieur au param
     @ApiOperation(value = "Récupèrer les article avec une partie de leur nom en paramètre")
     @GetMapping(value = "/Articles/nom/{nom}")
-    public List<Article> afficherListeArticleByNom(@PathVariable String nom) {
-        return articleDao.findByNomContains(nom);
+    public MappingJacksonValue afficherListeArticleByNom(@PathVariable String nom) {
+        List<Article> articleList = articleDao.findByNomContains(nom);
+        if (articleList == null) {
+            throw new ArticleIntrouvableExeption("Aucun article trouvé");
+        }
+        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat", "id");
+        FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("MonFiltreDynamique", monFiltre);
+
+        MappingJacksonValue articlesFiltres = new MappingJacksonValue(articleList);
+
+        articlesFiltres.setFilters(listDeNosFiltres);
+        ;
+        return articlesFiltres;
     }
 
     //Ajouter un article
@@ -112,7 +147,7 @@ public class ArticleController {
     }
 
    /*
-    //Calculer la amrge des articles
+    //Calculer la marge des articles
 
     @ApiOperation(value = "Permet de calculer la marge sur chaque article")
     @GetMapping(value = "/AdminArticle")

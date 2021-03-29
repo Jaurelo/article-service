@@ -13,7 +13,6 @@ public interface ArticleDao extends JpaRepository<Article, Integer> {
     List<Article> findByPrixGreaterThan(int prixLimit);
     List<Article> findByPrixLessThan(int prixLimit);
     List<Article> findByNomContains(String nom);
-    List<Article> find();
 
 
 
