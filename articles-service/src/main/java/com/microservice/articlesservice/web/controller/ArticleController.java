@@ -65,7 +65,7 @@ public class ArticleController {
     public MappingJacksonValue afficherListeArticlePrixGreater(@PathVariable int prixLimit) {
         List<Article> listeArticle =  articleDao.findByPrixGreaterThan(prixLimit);
 
-        if (listeArticle == null) {
+        if (listeArticle == null || listeArticle.isEmpty()) {
             throw new ArticleIntrouvableExeption("Aucun article ne vaut plus de :"+prixLimit+" €");
         }
         SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat", "id");
@@ -84,7 +84,7 @@ public class ArticleController {
     public MappingJacksonValue afficherListeArticlePrixLess(@PathVariable int prixLimit) {
         List<Article> listeArticle =  articleDao.findByPrixLessThan(prixLimit);
 
-        if (listeArticle == null) {
+        if (listeArticle == null || listeArticle.isEmpty()) {
             throw new ArticleIntrouvableExeption("Aucun article ne vaut moins de :"+prixLimit+" €");
         }
         SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat", "id");
@@ -102,7 +102,7 @@ public class ArticleController {
     @GetMapping(value = "/Articles/nom/{nom}")
     public MappingJacksonValue afficherListeArticleByNom(@PathVariable String nom) {
         List<Article> articleList = articleDao.findByNomContains(nom);
-        if (articleList == null) {
+        if (articleList == null || articleList.isEmpty()) {
             throw new ArticleIntrouvableExeption("Aucun article trouvé");
         }
         SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat", "id");
@@ -146,12 +146,12 @@ public class ArticleController {
         articleDao.save(article);
     }
 
-   /*
+
     //Calculer la marge des articles
 
     @ApiOperation(value = "Permet de calculer la marge sur chaque article")
     @GetMapping(value = "/AdminArticle")
-    public List<ArticleDto> calculerMargeArticle() {
+    public MappingJacksonValue calculerMargeArticle() {
         List<Article> articles = articleDao.findAll();
         List<ArticleDto> articlesWithMarge = new ArrayList<>();
         for (Article article : articles) {
@@ -162,10 +162,22 @@ public class ArticleController {
             articlesWithMarge.add(articleDto);
         }
 
-        return articlesWithMarge;
+       // return articlesWithMarge;
+
+        if (articlesWithMarge.isEmpty()) {
+            throw new ArticleIntrouvableExeption("Aucun article trouvé");
+        }
+        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept();
+        FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("MonFiltreDynamique", monFiltre);
+
+        MappingJacksonValue articlesFiltres = new MappingJacksonValue(articlesWithMarge);
+
+        articlesFiltres.setFilters(listDeNosFiltres);
+        ;
+        return articlesFiltres;
     }
 
-    */
+    /*
 
 
     //Calculer les marge des articles
@@ -180,7 +192,7 @@ public class ArticleController {
         }
         return margesArticles;
     }
-
+*/
     @ApiOperation(value = "Récupérer tous les articles triés par nom")
     @RequestMapping(value = "/Articlesordered", method = RequestMethod.GET)
     public List<Article> listeArticlesTries() {
