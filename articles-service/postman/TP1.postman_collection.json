@@ -1,0 +1,294 @@
+{
+	"info": {
+		"_postman_id": "9fd5e256-50a5-46d4-b774-ca88144ca9db",
+		"name": "TP1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Récupérer un article grâce à son ID à condition que celui-ci soit en stock!",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/Articles/id/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Articles",
+						"id",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Récupérer tous les articles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/Articles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Récupérer les articles avec un prix suppérieur au paramètre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/Articles/prixGreater/500",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Articles",
+						"prixGreater",
+						"500"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Récupérer les articles avec un prix infèrieur au paramètre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/Articles/prixLess/500",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Articles",
+						"prixLess",
+						"500"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Récupèrer les article avec une partie de leur nom en paramètre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/Articles/nom/or",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Articles",
+						"nom",
+						"or"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ajoute un article",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"{\r",
+							"  \"id\": 0,\r",
+							"  \"nom\": \"string\",\r",
+							"  \"prix\": 0,\r",
+							"  \"prixAchat\": 0\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"{\r",
+							"\"id\":10,\r",
+							"\"nom\":\"Poney en bois cracheur de glace\",\r",
+							"\"prix\": 9999,\r",
+							"\"prixAchat\": 200\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"followOriginalHttpMethod": true,
+				"followAuthorizationHeader": true,
+				"removeRefererHeaderOnRedirect": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 10,\r\n  \"nom\": \"lol\",\r\n  \"prix\": 500,\r\n  \"prixAchat\": 300\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9090/Articles?{=&\"id\"=10,&\"nom\"=\"Poney en bois cracheur de glace\",&\"prix\"= 9999,&\"prixAchat\"= 200&}=",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Articles"
+					],
+					"query": [
+						{
+							"key": "{",
+							"value": ""
+						},
+						{
+							"key": "\"id\"",
+							"value": "10,"
+						},
+						{
+							"key": "\"nom\"",
+							"value": "\"Poney en bois cracheur de glace\","
+						},
+						{
+							"key": "\"prix\"",
+							"value": " 9999,"
+						},
+						{
+							"key": "\"prixAchat\"",
+							"value": " 200"
+						},
+						{
+							"key": "}",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Supprime un article",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"{\r",
+							"  \"id\": 0,\r",
+							"  \"nom\": \"string\",\r",
+							"  \"prix\": 0,\r",
+							"  \"prixAchat\": 0\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 13,\r\n  \"nom\": \"string\",\r\n  \"prix\": 0\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9090/Articles/id/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Articles",
+						"id",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edite un article",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/Articles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Articles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Permet de calculer la marge sur chaque article",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/AdminArticle",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"AdminArticle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Récupérer tous les articles triés par nom",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/Articlesordered",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"Articlesordered"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
