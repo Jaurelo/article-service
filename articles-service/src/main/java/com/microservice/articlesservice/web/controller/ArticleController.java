@@ -133,7 +133,7 @@ public class ArticleController {
     */
 
 
-    //Calculer la amrge des articles
+    //Calculer les marge des articles
     @ApiOperation(value = "Permet de calculer la marge d'un article par son id")
     @GetMapping(value = "/AdminArticle")
     public List<Integer> calculerMargeArticle(@PathVariable int id) {
@@ -145,6 +145,16 @@ public class ArticleController {
         }
         return margesArticles;
     }
+
+    @ApiOperation(value = "Récupérer tous les articles triés par nom")
+    @RequestMapping(value = "/Articlesordered", method = RequestMethod.GET)
+    public List<Article> listeArticlesTries() {
+     //   List<Article> articles = articleDao.findAllOrderByNom();
+
+        return null;
+    }
+
+
 }
 
 
