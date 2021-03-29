@@ -195,10 +195,17 @@ public class ArticleController {
 */
     @ApiOperation(value = "Récupérer tous les articles triés par nom")
     @RequestMapping(value = "/Articlesordered", method = RequestMethod.GET)
-    public List<Article> listeArticlesTries() {
-     //   List<Article> articles = articleDao.findAllOrderByNom();
+    public MappingJacksonValue trierArticlesParOrdreAlphabetique() {
+        List<Article> articles = articleDao.findByOrderByNom();
 
-        return null;
+        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("prixAchat", "id");
+        FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("MonFiltreDynamique", monFiltre);
+
+        MappingJacksonValue articlesFiltres = new MappingJacksonValue(articles);
+
+        articlesFiltres.setFilters(listDeNosFiltres);
+        ;
+        return articlesFiltres;
     }
 
 
