@@ -8,6 +8,8 @@ import com.microservice.articlesservice.dao.ArticleDao;
 import com.microservice.articlesservice.model.Article;
 import com.microservice.articlesservice.web.exceptons.ArticleIntrouvableExeption;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.Servlet;
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,11 @@ public class ArticleController {
 
     @Autowired
     private ArticleDao articleDao;
+
+    @Autowired
+    private HttpServletRequest requestContext ;
+
+    private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
     @ApiOperation(value = "Récupérer tous les articles")
     @RequestMapping(value = "/Articles", method = RequestMethod.GET)
@@ -37,6 +45,8 @@ public class ArticleController {
 
         articlesFiltres.setFilters(listDeNosFiltres);
         ;
+        logger.info("Début d'appel au service Articles pour la requête : " + requestContext.getHeader("req-id"));
+
         return articlesFiltres;
     }
 
@@ -54,7 +64,7 @@ public class ArticleController {
         MappingJacksonValue articlesFiltres = new MappingJacksonValue(article);
 
         articlesFiltres.setFilters(listDeNosFiltres);
-        ;
+
         return articlesFiltres;
     }
 
